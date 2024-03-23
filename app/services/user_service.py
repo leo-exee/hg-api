@@ -8,7 +8,7 @@ from app.utils.token_utils import encode_token
 
 async def register_user_service(user: UserInDAO) -> AuthUserOutDTO:
     id = "1"
-    new_user = await create_user(user)
+    await create_user(user)
     token = encode_token(
         JWTTokenModelInDTO(
             userId=id, isAdmin=False, dateCreated=datetime.now(timezone.utc)

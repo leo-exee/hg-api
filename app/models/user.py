@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timezone
+
 from pydantic import BaseModel
 
 """
@@ -10,7 +11,7 @@ class UserInDAO(BaseModel):
     username: str
     email: str
     password: str
-    dateCreated: datetime = datetime.now()
+    dateCreated: datetime = datetime.now(timezone.utc)
 
 
 class UserOutDAO(UserInDAO):
