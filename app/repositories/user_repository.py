@@ -2,7 +2,7 @@ from app.constants import DB
 from app.models.user import UserInDAO, UserOutDAO
 
 
-async def create_user(user: UserInDAO) -> UserOutDAO:
+def create_user(user: UserInDAO) -> UserOutDAO:
     cursor = DB.cursor()
     cursor.execute(
         """

@@ -12,5 +12,5 @@ auth_controller = APIRouter(prefix="/auth", tags=["auth"])
     summary="Register a new user",
     description="Register a new user",
 )
-async def register(user: UserInDAO):
-    return await register_user_service(user)
+def register(user: UserInDAO):
+    return register_user_service(user)
