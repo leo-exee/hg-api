@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+
 from app.hg_api import hg_api
 
 app = FastAPI(
@@ -8,4 +9,4 @@ app = FastAPI(
     redoc_url="/swagger",
     docs_url="/docs",
 )
-app.mount("/api/v2", hg_api)
+app.mount("/", hg_api)

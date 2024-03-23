@@ -1,10 +1,11 @@
 from typing import Union
-from fastapi import FastAPI, Request
+
+from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi import status
 
+from app.controllers.auth_controller import auth_controller
 
 hg_api = FastAPI(
     title="HG - API",
@@ -62,9 +63,15 @@ def format_error_response(
     }
 
 
-@hg_api.exception_handler(Exception)
+@hg_api.exception_handler(ErrorResponse)
 def exception_handler(request: Request, exc: ErrorResponse) -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content=format_error_response(exc.code, exc.message, exc.status, exc.details),
     )
+
+
+"""
+ROUTER
+"""
+hg_api.include_router(auth_controller)

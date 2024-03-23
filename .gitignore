@@ -3,4 +3,5 @@
 .ruff_cache
 .env.local
 __pycache__
+.vscode
 ```
