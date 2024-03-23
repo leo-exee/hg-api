@@ -11,6 +11,7 @@ def create_user(user: UserInDAO) -> UserOutDAO:
         """,
         (user.username, user.email, user.password, user.dateCreated, user.dateCreated),
     )
+    cursor.close()
     DB.commit()
     return UserOutDAO(
         **user.dict(), id=str(cursor._last_insert_id), lastModified=user.dateCreated

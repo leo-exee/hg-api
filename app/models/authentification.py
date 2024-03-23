@@ -11,7 +11,6 @@ class TokenInDAO(BaseModel):
 
 class TokenOutDAO(TokenInDAO):
     id: str
-    lastModified: datetime
 
 
 class JWTTokenModelInDTO(BaseModel):

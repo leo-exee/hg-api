@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.models.user import AuthUserOutDTO, UserInDAO
+from app.models.user import AuthenticatedUserOutDTO, UserInDAO
 from app.services.user_service import register_user_service
 
 auth_controller = APIRouter(prefix="/auth", tags=["auth"])
@@ -8,7 +8,7 @@ auth_controller = APIRouter(prefix="/auth", tags=["auth"])
 
 @auth_controller.post(
     "/register",
-    response_model=AuthUserOutDTO,
+    response_model=AuthenticatedUserOutDTO,
     summary="Register a new user",
     description="Register a new user",
 )

@@ -24,5 +24,8 @@ Model DTO
 """
 
 
-class AuthUserOutDTO(UserOutDAO):
+class AuthenticatedUserOutDTO(BaseModel):
+    id: str
+    username: str
+    email: str
     token: str
