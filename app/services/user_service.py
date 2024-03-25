@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from app.models.authentification import JWTTokenModelInDTO, TokenInDAO
 from app.models.user import AuthenticatedUserOutDTO, UserInDAO
 from app.repositories.token_repository import create_token
-from app.repositories.user_repository import create_user
+from app.repositories.user_repository import create_user, get_user_by_email
 from app.utils.token_utils import encode_token
 from app.utils.user_utils import get_password_hash
 
@@ -24,3 +24,8 @@ def register_user_service(user: UserInDAO) -> AuthenticatedUserOutDTO:
         )
     )
     return AuthenticatedUserOutDTO(**new_user.dict(), token=token)
+
+
+def login_user_service(email: str, password: str) -> AuthenticatedUserOutDTO:
+    test = get_user_by_email(email)
+    return AuthenticatedUserOutDTO(id="1", username="test", email="test", token="test")

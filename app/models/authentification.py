@@ -17,3 +17,8 @@ class JWTTokenModelInDTO(BaseModel):
     userId: str
     isAdmin: bool
     dateCreated: datetime
+
+
+class AuthentificationInDTO(BaseModel):
+    email: str
+    password: str

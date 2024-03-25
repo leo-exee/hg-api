@@ -16,3 +16,19 @@ def create_user(user: UserInDAO) -> UserOutDAO:
     return UserOutDAO(
         **user.dict(), id=str(cursor._last_insert_id), lastModified=user.dateCreated
     )
+
+
+def get_user_by_email(email: str) -> UserOutDAO | None:
+    cursor = DB.cursor()
+    cursor.execute(
+        """
+        SELECT * FROM User WHERE email = %s
+        """,
+        (email,),
+    )
+    user = cursor.fetchone()
+    cursor.close()
+
+    print(user)
+
+    return None
