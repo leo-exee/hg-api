@@ -44,10 +44,10 @@ class OpeningInfo(BaseModel):
 
 
 class Information(BaseModel):
-    rating: int
-    state: int
-    cleanliness: int
-    accessbility: int
+    rating: float
+    state: float
+    cleanliness: float
+    accessbility: float
     babyFriendly: bool
     handicapFriendly: bool
     lockSystem: lockSystemEnum
