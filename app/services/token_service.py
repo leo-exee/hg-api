@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from fastapi import Security, status
 from fastapi.security import APIKeyHeader
 
+from app.config.constants import ACCESS_TOKEN
 from app.config.error_model import ErrorResponse
 from app.models.authentification import JWTTokenModelInDTO, TokenInDAO, TokenOutDAO
 from app.models.mongo import PyObjectId
@@ -13,8 +14,6 @@ from app.repositories.token_repository import (
 )
 from app.repositories.user_repository import get_user
 from app.utils.token_utils import encode_token
-
-accessToken = APIKeyHeader(name="Authorization")
 
 
 async def create_token_service(
@@ -41,7 +40,7 @@ async def create_token_service(
 
 
 async def validate_token_service(
-    token: str | None = Security(accessToken),
+    token: str | None = Security(ACCESS_TOKEN),
 ) -> TokenOutDAO:
     if not token:
         raise ErrorResponse(
@@ -60,7 +59,7 @@ async def validate_token_service(
 
 
 async def get_token_user_service(
-    token: str | None = Security(accessToken),
+    token: str | None = Security(ACCESS_TOKEN),
 ) -> UserOutDAO:
     valid_token = await validate_token_service(token)
     user = await get_user(valid_token.userId)
