@@ -23,7 +23,7 @@ async def get_toilets():
     return "Get all toilets"
 
 
-@user_toilet_controller.get(
+@toilet_controller.get(
     "/{toilet_id}",
     summary="Get toilet by id",
     description="Get toilet by id",
