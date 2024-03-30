@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 
 from app.config.error_model import ErrorResponse
 from app.controllers.auth_controller import auth_controller
+from app.controllers.toilet_controller import toilet_controller
 
 hg_api = FastAPI(
     title="HG - API",
@@ -52,3 +53,4 @@ def exception_handler(request: Request, exc: ErrorResponse) -> JSONResponse:
 ROUTER
 """
 hg_api.include_router(auth_controller)
+hg_api.include_router(toilet_controller)

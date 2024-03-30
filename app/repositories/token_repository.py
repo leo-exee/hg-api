@@ -10,8 +10,15 @@ async def create_token(token: TokenInDAO) -> TokenOutDAO | None:
     )
 
 
-async def get_token(user_id: PyObjectId) -> TokenOutDAO | None:
-    token = await db.tokens.find_one({"user_id": user_id})
-    if token:
-        return TokenOutDAO.from_mongo(token)
+async def get_token(token: str) -> TokenOutDAO | None:
+    response = await db.tokens.find_one({"token": token})
+    if response:
+        return TokenOutDAO.from_mongo(response)
+    return None
+
+
+async def get_token_by_user_id(user_id: PyObjectId) -> TokenOutDAO | None:
+    response = await db.tokens.find_one({"userId": user_id})
+    if response:
+        return TokenOutDAO.from_mongo(response)
     return None

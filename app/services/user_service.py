@@ -4,7 +4,7 @@ from fastapi import status
 
 from app.config.error_model import ErrorResponse
 from app.models.user import AuthenticatedUserOutDTO, UserInDAO
-from app.repositories.token_repository import get_token
+from app.repositories.token_repository import get_token_by_user_id
 from app.repositories.user_repository import create_user, get_user_by_auth
 from app.services.token_service import create_token_service
 from app.utils.user_utils import get_password_hash, verify_password
@@ -46,7 +46,7 @@ async def login_user_service(email: str, password: str) -> AuthenticatedUserOutD
             "Incorrect password",
             "INCORRECT_PASSWORD",
         )
-    token = await get_token(user.id)
+    token = await get_token_by_user_id(user.id)
     if not token:
         token = await create_token_service(user.id)
     return AuthenticatedUserOutDTO(**user.dict(), token=token.token)
