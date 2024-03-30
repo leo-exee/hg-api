@@ -1,16 +1,16 @@
-from app.constants import DB
+from app.config.database import db
 from app.models.authentification import TokenInDAO, TokenOutDAO
 
 
-def create_token(token: TokenInDAO) -> TokenOutDAO:
-    cursor = DB.cursor()
-    cursor.execute(
-        """
-        INSERT INTO Token (userId, token, dateCreated)
-        VALUES (%s, %s, %s)
-        """,
-        (token.userId, token.token, token.dateCreated),
+async def create_token(token: TokenInDAO) -> TokenOutDAO | None:
+    response = await db.tokens.insert_one(token.mongo())
+    return TokenOutDAO.from_mongo(
+        await db.tokens.find_one({"_id": response.inserted_id})
     )
-    cursor.close()
-    DB.commit()
-    return TokenOutDAO(**token.dict(), id=str(cursor._last_insert_id))
+
+
+async def get_token(user_id: str) -> TokenOutDAO | None:
+    token = await db.tokens.find_one({"user_id": user_id})
+    if token:
+        return TokenOutDAO.from_mongo(token)
+    return None

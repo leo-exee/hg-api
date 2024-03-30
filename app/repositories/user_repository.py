@@ -1,34 +1,18 @@
-from app.constants import DB
+from app.config.database import db
 from app.models.user import UserInDAO, UserOutDAO
 
 
-def create_user(user: UserInDAO) -> UserOutDAO:
-    cursor = DB.cursor()
-    cursor.execute(
-        """
-        INSERT INTO User (username, email, password, dateCreated, lastModified)
-        VALUES (%s, %s, %s, %s, %s)
-        """,
-        (user.username, user.email, user.password, user.dateCreated, user.dateCreated),
-    )
-    cursor.close()
-    DB.commit()
-    return UserOutDAO(
-        **user.dict(), id=str(cursor._last_insert_id), lastModified=user.dateCreated
-    )
+async def create_user(user: UserInDAO) -> UserOutDAO | None:
+    print(user.dict())
+    response = await db.users.insert_one(user.mongo())
+    new_user = await db.users.find_one({"_id": response.inserted_id})
+    if not new_user:
+        return None
+    return UserOutDAO.from_mongo(new_user)
 
 
-def get_user_by_email(email: str) -> UserOutDAO | None:
-    cursor = DB.cursor()
-    cursor.execute(
-        """
-        SELECT * FROM User WHERE email = %s
-        """,
-        (email,),
-    )
-    user = cursor.fetchone()
-    cursor.close()
-
-    print(user)
-
+async def get_user_by_auth(email: str) -> UserOutDAO | None:
+    user = await db.users.find_one({"email": email})
+    if user:
+        return UserOutDAO(**user)
     return None

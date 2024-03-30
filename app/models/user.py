@@ -2,12 +2,14 @@ from datetime import datetime, timezone
 
 from pydantic import BaseModel
 
+from app.models.mongo import MongoModel
+
 """
 Model DAO
 """
 
 
-class UserInDAO(BaseModel):
+class UserInDAO(MongoModel):
     username: str
     email: str
     password: str
@@ -17,11 +19,6 @@ class UserInDAO(BaseModel):
 class UserOutDAO(UserInDAO):
     id: str
     lastModified: datetime
-
-
-"""
-Model DTO
-"""
 
 
 class AuthenticatedUserOutDTO(BaseModel):

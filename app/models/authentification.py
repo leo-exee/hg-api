@@ -2,8 +2,10 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+from app.models.mongo import MongoModel
 
-class TokenInDAO(BaseModel):
+
+class TokenInDAO(MongoModel):
     userId: str
     token: str
     dateCreated: datetime

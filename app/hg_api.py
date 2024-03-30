@@ -5,6 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.config.error_model import ErrorResponse
 from app.controllers.auth_controller import auth_controller
 
 hg_api = FastAPI(
@@ -21,30 +22,6 @@ hg_api.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-class ErrorResponse(Exception):
-    def __init__(
-        self,
-        code: Union[str, int],
-        message: str,
-        status: str,
-        details: list[object] | None = None,
-    ) -> None:
-        self.code = code
-        self.message = message
-        self.status = status
-        self.details = details if details is not None else []
-
-    @classmethod
-    def from_error(cls, e: Union["ErrorResponse", Exception]) -> "ErrorResponse":
-        if isinstance(e, cls):
-            return e
-        return cls(
-            status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "Internal Server Error",
-            "INTERNAL_SERVER_ERROR",
-        )
 
 
 def format_error_response(

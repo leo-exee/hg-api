@@ -14,7 +14,7 @@ auth_controller = APIRouter(prefix="/auth", tags=["auth"])
     description="Register a new user",
 )
 async def register(user: UserInDAO):
-    return register_user_service(user)
+    return await register_user_service(user)
 
 
 @auth_controller.post(
@@ -24,4 +24,4 @@ async def register(user: UserInDAO):
     description="Login",
 )
 async def login(payload: AuthentificationInDTO):
-    return login_user_service(payload.email, payload.password)
+    return await login_user_service(payload.email, payload.password)
