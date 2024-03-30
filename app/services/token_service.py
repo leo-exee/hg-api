@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 
 from fastapi import Security, status
-from fastapi.security import APIKeyHeader
 
 from app.config.constants import ACCESS_TOKEN
 from app.config.error_model import ErrorResponse

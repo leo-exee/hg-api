@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from app.models.mongo import PyObjectId
-from app.models.toilet import ToiletInDAO
 from app.models.user import UserOutDAO
-from app.services.token_service import get_token_user_service, validate_token_service
+from app.services.token_service import get_token_user_service
 
 user_controller = APIRouter(
     prefix="/user",
