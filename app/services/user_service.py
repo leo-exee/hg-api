@@ -32,6 +32,24 @@ async def register_user_service(user: UserInDAO) -> AuthenticatedUserOutDTO:
     )
 
 
+async def user_exists_service(
+    email: str, password: str
+) -> AuthenticatedUserOutDTO | None:
+    user = await get_user_by_auth(email)
+    if not user:
+        return None
+    if not verify_password(password, user.password):
+        raise ErrorResponse(
+            status.HTTP_409_CONFLICT,
+            "User already exists",
+            "USER_ALREADY_EXISTS",
+        )
+    token = await get_token_by_user_id(user.id)
+    if not token:
+        token = await create_token_service(user.id)
+    return AuthenticatedUserOutDTO(**user.dict(), token=token.token)
+
+
 async def login_user_service(email: str, password: str) -> AuthenticatedUserOutDTO:
     user = await get_user_by_auth(email)
     if not user:

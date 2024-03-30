@@ -45,7 +45,11 @@ def format_error_response(
 @hg_api.exception_handler(ErrorResponse)
 def exception_handler(request: Request, exc: ErrorResponse) -> JSONResponse:
     return JSONResponse(
-        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        status_code=(
+            exc.code
+            if isinstance(exc.code, int)
+            else status.HTTP_500_INTERNAL_SERVER_ERROR
+        ),
         content=format_error_response(exc.code, exc.message, exc.status, exc.details),
     )
 
