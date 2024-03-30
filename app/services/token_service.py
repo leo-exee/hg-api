@@ -6,10 +6,12 @@ from fastapi.security import APIKeyHeader
 from app.config.error_model import ErrorResponse
 from app.models.authentification import JWTTokenModelInDTO, TokenInDAO, TokenOutDAO
 from app.models.mongo import PyObjectId
+from app.models.user import UserOutDAO
 from app.repositories.token_repository import (
     create_token,
     get_token,
 )
+from app.repositories.user_repository import get_user
 from app.utils.token_utils import encode_token
 
 accessToken = APIKeyHeader(name="Authorization")
@@ -55,3 +57,17 @@ async def validate_token_service(
             "INVALID_TOKEN",
         )
     return valid_token
+
+
+async def get_token_user_service(
+    token: str | None = Security(accessToken),
+) -> UserOutDAO:
+    valid_token = await validate_token_service(token)
+    user = await get_user(valid_token.userId)
+    if not user:
+        raise ErrorResponse(
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "Error getting user",
+            "INTERNAL_SERVER_ERROR",
+        )
+    return user

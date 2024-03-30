@@ -29,6 +29,8 @@ class Review(BaseModel):
     cleanliness: int
     accessbility: int
     comment: str
+    dateCreated: datetime | None
+    lastModified: datetime | None
 
 
 class Location(BaseModel):
