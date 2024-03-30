@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 
 from pydantic import BaseModel
@@ -53,6 +54,8 @@ class Information(BaseModel):
     lockSystem: lockSystemEnum
     openingHours: list[OpeningInfo]
     maintenancePhoneNum: str
+    dateCreated: datetime | None
+    lastModified: datetime | None
 
 
 class ToiletInDAO(MongoModel):
