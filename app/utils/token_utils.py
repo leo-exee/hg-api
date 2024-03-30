@@ -1,12 +1,11 @@
 import jwt
-from fastapi.encoders import jsonable_encoder
 
 from app.constants import JWT_SECRET
 from app.models.authentification import JWTTokenModelInDTO
 
 
 def encode_token(payload: JWTTokenModelInDTO) -> str:
-    return jwt.encode(jsonable_encoder(payload), JWT_SECRET, algorithm="HS256")
+    return jwt.encode(dict(payload), JWT_SECRET, algorithm="HS256")
 
 
 def decode_token(encoded: str) -> dict:

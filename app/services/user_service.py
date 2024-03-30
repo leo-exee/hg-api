@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from fastapi import status
 
 from app.config.error_model import ErrorResponse
@@ -10,6 +12,8 @@ from app.utils.user_utils import get_password_hash, verify_password
 
 async def register_user_service(user: UserInDAO) -> AuthenticatedUserOutDTO:
     user.password = get_password_hash(user.password)
+    user.dateCreated = datetime.now(timezone.utc)
+    user.lastModified = datetime.now(timezone.utc)
     new_user = await create_user(user)
     if not new_user:
         raise ErrorResponse(
@@ -20,7 +24,12 @@ async def register_user_service(user: UserInDAO) -> AuthenticatedUserOutDTO:
     token = await create_token_service(
         new_user.id,
     )
-    return AuthenticatedUserOutDTO(**new_user.dict(), token=token.token)
+    return AuthenticatedUserOutDTO(
+        id=new_user.id,
+        username=new_user.username,
+        email=new_user.email,
+        token=token.token,
+    )
 
 
 async def login_user_service(email: str, password: str) -> AuthenticatedUserOutDTO:

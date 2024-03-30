@@ -1,5 +1,6 @@
 from app.config.database import db
 from app.models.authentification import TokenInDAO, TokenOutDAO
+from app.models.mongo import PyObjectId
 
 
 async def create_token(token: TokenInDAO) -> TokenOutDAO | None:
@@ -9,7 +10,7 @@ async def create_token(token: TokenInDAO) -> TokenOutDAO | None:
     )
 
 
-async def get_token(user_id: str) -> TokenOutDAO | None:
+async def get_token(user_id: PyObjectId) -> TokenOutDAO | None:
     token = await db.tokens.find_one({"user_id": user_id})
     if token:
         return TokenOutDAO.from_mongo(token)

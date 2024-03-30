@@ -2,23 +2,23 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from app.models.mongo import MongoModel
+from app.models.mongo import MongoModel, PyObjectId
 
 
 class TokenInDAO(MongoModel):
-    userId: str
+    userId: PyObjectId
     token: str
     dateCreated: datetime
 
 
 class TokenOutDAO(TokenInDAO):
-    id: str
+    id: PyObjectId
 
 
 class JWTTokenModelInDTO(BaseModel):
     userId: str
     isAdmin: bool
-    dateCreated: datetime
+    dateCreated: str
 
 
 class AuthentificationInDTO(BaseModel):

@@ -3,7 +3,6 @@ from app.models.user import UserInDAO, UserOutDAO
 
 
 async def create_user(user: UserInDAO) -> UserOutDAO | None:
-    print(user.dict())
     response = await db.users.insert_one(user.mongo())
     new_user = await db.users.find_one({"_id": response.inserted_id})
     if not new_user:
@@ -14,5 +13,5 @@ async def create_user(user: UserInDAO) -> UserOutDAO | None:
 async def get_user_by_auth(email: str) -> UserOutDAO | None:
     user = await db.users.find_one({"email": email})
     if user:
-        return UserOutDAO(**user)
+        return UserOutDAO.from_mongo(user)
     return None
