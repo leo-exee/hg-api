@@ -68,6 +68,7 @@ async def delete_toilet(
 ):
     return "Delete toilet"
 
+
 @user_toilet_controller.post(
     "/{toilet_id}/reviews",
     summary="Create review",
@@ -78,6 +79,7 @@ async def create_review(
     user: UserOutDAO = Depends(get_token_user_service),
 ):
     return "Create review"
+
 
 @user_toilet_controller.patch(
     "/{toilet_id}/reviews/{review_id}",
@@ -90,6 +92,7 @@ async def update_review(
     user: UserOutDAO = Depends(get_token_user_service),
 ):
     return "Update review"
+
 
 @user_toilet_controller.delete(
     "/{toilet_id}/reviews/{review_id}",
