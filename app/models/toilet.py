@@ -22,6 +22,7 @@ class DaysOfWeekEnum(str, Enum):
 
 
 class Review(BaseModel):
+    userId: PyObjectId
     rating: int
     state: int
     cleanliness: int
@@ -55,6 +56,7 @@ class Information(BaseModel):
 
 
 class ToiletInDAO(MongoModel):
+    userId: PyObjectId
     name: str
     address: str
     location: Location
