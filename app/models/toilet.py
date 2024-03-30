@@ -1,5 +1,7 @@
 from enum import Enum
+
 from pydantic import BaseModel
+
 from app.models.mongo import MongoModel, PyObjectId
 
 
