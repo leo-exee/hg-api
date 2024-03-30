@@ -4,7 +4,7 @@ from datetime import timezone
 import motor.motor_asyncio
 from bson import CodecOptions
 
-from app.constants import MONGO_URL
+from app.config.constants import MONGO_URL
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

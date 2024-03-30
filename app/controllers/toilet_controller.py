@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends
-from fastapi.security import APIKeyHeader
 
 from app.services.token_service import validate_token_service
-
 
 toilet_controller = APIRouter(
     prefix="/toilets", tags=["toilets"], dependencies=[Depends(validate_token_service)]

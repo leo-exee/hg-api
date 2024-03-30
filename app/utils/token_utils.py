@@ -1,6 +1,6 @@
 import jwt
 
-from app.constants import JWT_SECRET
+from app.config.constants import JWT_SECRET
 from app.models.authentification import JWTTokenModelInDTO
 
 
