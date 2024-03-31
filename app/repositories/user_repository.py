@@ -5,10 +5,14 @@ from app.models.user import UserInDAO, UserOutDAO
 
 async def create_user(user: UserInDAO) -> UserOutDAO | None:
     response = await db.users.insert_one(user.mongo())
-    new_user = await db.users.find_one({"_id": response.inserted_id})
-    if not new_user:
-        return None
-    return UserOutDAO.from_mongo(new_user)
+    return UserOutDAO.from_mongo(await db.users.find_one({"_id": response.inserted_id}))
+
+
+async def update_user(user_id: PyObjectId, user: UserInDAO) -> UserOutDAO | None:
+    response = await db.users.find_one_and_update(
+        {"_id": user_id}, {"$set": user.mongo(exclude_none=True)}
+    )
+    return UserOutDAO.from_mongo(response)
 
 
 async def get_user(user_id: PyObjectId) -> UserOutDAO | None:

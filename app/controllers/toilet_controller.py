@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends
 from app.models.mongo import PyObjectId
 from app.models.toilet import ToiletInDAO
 from app.models.user import UserOutDAO
+from app.services.toilet_service import get_toilets_details_service
 from app.services.token_service import get_token_user_service, validate_token_service
 
 toilet_controller = APIRouter(prefix="/toilets", tags=["toilets"])
@@ -20,7 +21,7 @@ user_toilet_controller = APIRouter(
     description="Get all toilets",
 )
 async def get_toilets():
-    return "Get all toilets"
+    return await get_toilets_details_service()
 
 
 @toilet_controller.get(

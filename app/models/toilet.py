@@ -33,6 +33,10 @@ class Review(BaseModel):
     lastModified: datetime | None
 
 
+class ReviewOutDAO(Review, MongoModel):
+    pass
+
+
 class Location(BaseModel):
     lat: float
     long: float
@@ -69,5 +73,5 @@ class ToiletInDAO(MongoModel):
     reviews: list[Review]
 
 
-class ToiletOutDTO(ToiletInDAO):
+class ToiletOutDAO(ToiletInDAO):
     id: PyObjectId
