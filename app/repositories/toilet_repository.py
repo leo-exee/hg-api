@@ -4,17 +4,23 @@ from app.models.toilet import Review, ReviewOutDAO, ToiletInDAO, ToiletOutDAO
 
 
 async def create_toilet(toilet: ToiletInDAO) -> ToiletOutDAO | None:
-    response = await db.toilets.insert_one(toilet.dict())
-    return ToiletOutDAO.from_mongo(
-        await db.toilet.find_one({"_id": response.inserted_id})
+    response = await db.toilets.find_one_and_update(
+        {"_id": PyObjectId()},
+        {"$set": toilet.dict()},
+        upsert=True,
+        return_document=True,
     )
+    return ToiletOutDAO.from_mongo(response)
 
 
 async def update_toilet(
     toilet_id: PyObjectId, toilet: ToiletInDAO
 ) -> ToiletOutDAO | None:
     response = await db.toilets.find_one_and_update(
-        {"_id": toilet_id}, {"$set": toilet.dict(exclude_none=True)}
+        {"_id": toilet_id},
+        {"$set": toilet.dict(exclude_none=True)},
+        upsert=False,
+        return_document=True,
     )
     return ToiletOutDAO.from_mongo(response)
 

@@ -1,8 +1,9 @@
+from urllib import response
 from fastapi import status
 
 from app.config.error_model import ErrorResponse
 from app.models.mongo import PyObjectId
-from app.models.toilet import Review, ToiletInDAO
+from app.models.toilet import Review, ToiletInDAO, ToiletOutDAO
 from app.repositories.toilet_repository import (
     create_toilet,
     create_toilet_review,
@@ -32,9 +33,18 @@ async def get_toilet_reviews_service(toilet_id: PyObjectId):
     return toilet.reviews
 
 
-async def create_toilet_service(toilet: ToiletInDAO, user_id: PyObjectId):
+async def create_toilet_service(
+    toilet: ToiletInDAO, user_id: PyObjectId
+) -> ToiletOutDAO:
     toilet.userId = user_id
-    return await create_toilet(toilet)
+    response = await create_toilet(toilet)
+    if not response:
+        raise ErrorResponse(
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "Error creating toilet",
+            "INTERNAL_SERVER_ERROR",
+        )
+    return response
 
 
 async def update_toilet_service(

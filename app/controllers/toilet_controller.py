@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.models.mongo import PyObjectId
-from app.models.toilet import Review, ToiletInDAO
+from app.models.toilet import Review, ToiletInDAO, ToiletOutDAO
 from app.models.user import UserOutDAO
 from app.services.toilet_service import (
     create_toilet_review_service,
@@ -46,11 +46,12 @@ async def get_toilet_by_id(toilet_id: PyObjectId):
     "/",
     summary="Create toilet",
     description="Create toilet",
+    response_model=ToiletOutDAO,
 )
 async def create_toilet(
     toilet: ToiletInDAO,
     user: UserOutDAO = Depends(get_token_user_service),
-):
+) -> ToiletOutDAO:
     return await create_toilet_service(toilet, user.id)
 
 
