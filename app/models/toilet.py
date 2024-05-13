@@ -65,8 +65,9 @@ class Information(BaseModel):
 
 
 class ToiletInDAO(MongoModel):
-    userId: PyObjectId
+    userId: PyObjectId | None
     name: str
+    description: str
     address: str
     location: Location
     information: Information
@@ -75,3 +76,4 @@ class ToiletInDAO(MongoModel):
 
 class ToiletOutDAO(ToiletInDAO):
     id: PyObjectId
+    userId: PyObjectId
