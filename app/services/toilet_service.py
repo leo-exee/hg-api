@@ -36,6 +36,22 @@ async def create_toilet_service(
     toilet: ToiletInDAO, user_id: PyObjectId
 ) -> ToiletOutDAO:
     toilet.userId = user_id
+    if (
+        toilet.information.accessbility == 0
+        and toilet.information.cleanliness == 0
+        and toilet.information.state == 0
+    ):
+        toilet.information.rating = 0
+    else:
+        toilet.information.rating = round(
+            (
+                toilet.information.accessbility
+                + toilet.information.cleanliness
+                + toilet.information.state
+            )
+            / 3,
+            2,
+        )
     response = await create_toilet(toilet)
     if not response:
         raise ErrorResponse(
