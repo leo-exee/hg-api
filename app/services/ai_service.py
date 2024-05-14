@@ -1,4 +1,5 @@
 import openai
+
 from app.models.toilet import Content
 
 
