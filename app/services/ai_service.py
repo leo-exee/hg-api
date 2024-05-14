@@ -16,11 +16,11 @@ async def generate_description_service(content: Content):
         f"Baby friendly : {'YES' if content.babyFriendly else 'NO'}\n"
         f"Handicap friendly : {'YES' if content.handicapFriendly else 'NO'}\n"
         f"Language : {content.language.name}\n"
-        f"I want a short, relatively familiar description of these toilets in a maximum of 75 words. The text must be in the language provided in Language.The description should be familiar and friendly, as well as easy to understand. Notes should not be integrated directly into the description, but based on it."
+        f"I want a short, relatively familiar description of these toilets in a maximum of 50 words, in the language provided and should be familiar and friendly, as well as easy to understand. Notes should not be integrated directly into the description, but based on it."
     )
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
@@ -31,6 +31,7 @@ async def generate_description_service(content: Content):
                 "content": message,
             },
         ],
+        max_tokens=75,
     )
 
     return response.choices[0].message.content
