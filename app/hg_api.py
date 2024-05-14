@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config.error_model import ErrorResponse
+from app.controllers.ai_controller import ai_controller
 from app.controllers.auth_controller import auth_controller
 from app.controllers.toilet_controller import toilet_controller, user_toilet_controller
 from app.controllers.user_controller import user_controller
@@ -61,3 +62,4 @@ hg_api.include_router(auth_controller)
 hg_api.include_router(toilet_controller)
 hg_api.include_router(user_toilet_controller)
 hg_api.include_router(user_controller)
+hg_api.include_router(ai_controller)

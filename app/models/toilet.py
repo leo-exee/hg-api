@@ -22,6 +22,11 @@ class DaysOfWeekEnum(str, Enum):
     SUNDAY = "sunday"
 
 
+class LanguageEnum(str, Enum):
+    FRENCH = "FR"
+    ENGLISH = "EN"
+
+
 class Review(BaseModel):
     userId: PyObjectId
     rating: int
@@ -72,6 +77,17 @@ class ToiletInDAO(MongoModel):
     location: Location
     information: Information
     reviews: list[Review]
+
+
+class Content(BaseModel):
+    name: str
+    address: str
+    cleanliness: float
+    accessibility: float
+    state: float
+    babyFriendly: bool
+    handicapFriendly: bool
+    language: LanguageEnum
 
 
 class ToiletOutDAO(ToiletInDAO):

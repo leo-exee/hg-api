@@ -1,4 +1,3 @@
-from urllib import response
 from fastapi import status
 
 from app.config.error_model import ErrorResponse
