@@ -16,7 +16,7 @@ async def generate_description_service(content: Content):
         f"Baby friendly : {'YES' if content.babyFriendly else 'NO'}\n"
         f"Handicap friendly : {'YES' if content.handicapFriendly else 'NO'}\n"
         f"Language : {content.language.name}\n"
-        f"I want a short, relatively familiar description of these toilets in a maximum of 50 words, in the language provided and should be familiar and friendly, as well as easy to understand. Notes should not be integrated directly into the description, but based on it."
+        f"I want a short, easy to understand, familiar description of these toilets 50 words, in the language provided. Don't mention directly cleanliness, accessibility, state. Don't mention language."
     )
 
     response = client.chat.completions.create(
