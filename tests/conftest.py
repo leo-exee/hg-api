@@ -1,11 +1,5 @@
-import asyncio
 import glob
 import logging
-
-import motor.motor_asyncio
-import pytest_asyncio
-
-from app.config.constants import MONGODB_URL
 
 logging.getLogger("faker").setLevel(logging.ERROR)
 
@@ -22,15 +16,3 @@ pytest_plugins = [
 ]
 
 logging.info("pytest_plugins", pytest_plugins)
-
-
-@pytest_asyncio.fixture(scope="session")
-def event_loop():
-    """
-    Pytest fixture for setting up a testing event loop
-    """
-    policy = asyncio.get_event_loop_policy()
-    loop = policy.new_event_loop()
-    yield loop
-    motor.motor_asyncio.AsyncIOMotorClient(MONGODB_URL)
-    loop.close()
