@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, edited, ready_for_review, synchronize]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create mongo Docker container
+        uses: DigiPie/mongo-action@v2.0.1
+        with:
+          image_version: latest
+          port: 27018
+
+      - name: Set up Python environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Set up environment variables
+        run: |
+          export HOST_IP=$HOST_IP
+          export PORT=$PORT
+          export MONGODB_URL=$MONGODB_URL
+          export LB_ROUTER_INT_URL=$LB_ROUTER_INT_URL
+          export LB_API_INT_URL=$LB_API_INT_URL
+          export ADMIN_TOKEN=$ADMIN_TOKEN
+          export JWT_SECRET=$JWT_SECRET
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+
+      - name: Run tests
+        run: pytest
