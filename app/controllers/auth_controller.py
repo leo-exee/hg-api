@@ -16,7 +16,10 @@ auth_controller = APIRouter(prefix="/auth", tags=["auth"])
     status_code=status.HTTP_201_CREATED,
     summary="Register a new user",
     description="Register a new user",
-    responses={status.HTTP_201_CREATED: {"description": "User created"}},
+    responses={
+        status.HTTP_201_CREATED: {"description": "User created"},
+        status.HTTP_403_FORBIDDEN: {"description": "User already exists"},
+    },
 )
 async def register(user: UserInDAO):
     return await register_user_service(user)
