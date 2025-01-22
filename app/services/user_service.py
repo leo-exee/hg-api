@@ -11,6 +11,12 @@ from app.utils.user_utils import get_password_hash, verify_password
 
 
 async def register_user_service(user: UserInDAO) -> AuthenticatedUserOutDTO:
+    if get_user_by_auth(user.email):
+        raise ErrorResponse(
+            status.HTTP_403_FORBIDDEN,
+            "Forbidden",
+            "FORBIDDEN",
+        )
     user.password = get_password_hash(user.password)
     user.dateCreated = datetime.now(timezone.utc)
     user.lastModified = datetime.now(timezone.utc)

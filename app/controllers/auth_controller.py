@@ -1,11 +1,10 @@
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, status
 
 from app.models.authentification import AuthentificationInDTO
 from app.models.user import AuthenticatedUserOutDTO, UserInDAO
 from app.services.user_service import (
     login_user_service,
     register_user_service,
-    user_exists_service,
 )
 
 auth_controller = APIRouter(prefix="/auth", tags=["auth"])
@@ -18,10 +17,7 @@ auth_controller = APIRouter(prefix="/auth", tags=["auth"])
     summary="Register a new user",
     description="Register a new user",
 )
-async def register(user: UserInDAO, response: Response):
-    if user_exists := await user_exists_service(user.email, user.password):
-        response.status_code = status.HTTP_202_ACCEPTED
-        return user_exists
+async def register(user: UserInDAO):
     return await register_user_service(user)
 
 

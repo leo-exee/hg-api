@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from bson import ObjectId
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from app.models.mongo import MongoModel, PyObjectId
 
@@ -12,7 +12,7 @@ Model DAO
 
 class UserInDAO(MongoModel):
     username: str
-    email: str
+    email: EmailStr
     password: str
     dateCreated: datetime | None
     lastModified: datetime | None
